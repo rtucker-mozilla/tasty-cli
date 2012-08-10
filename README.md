@@ -10,7 +10,9 @@ Requirements
 -
 
 git clone https://github.com/rtucker-mozilla/tastypie-client.git
+
 cd tastypie-client
+
 sudo python setup.py install
 
 tasty-cli installation
