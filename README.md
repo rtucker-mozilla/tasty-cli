@@ -16,9 +16,12 @@ sudo python setup.py install
 tasty-cli installation
 git clone https://github.com/rtucker-mozilla/tasty-cli.git
 Using your favorit editor create a file in your homedir .tasty-cli
-The syntax is the file shall have 3 lines
+The syntax is the file shall have 3 lines:
+
 username
+
 password
+
 url_of_api
 
 Usage
