@@ -118,17 +118,17 @@ class MozInventoryCLI(object):
                 cls = str(value.__class__)
                 lpr = "<class 'tastypie_client.core.ListProxy'>"
                 if cls != "<type 'dict'>"and cls != lpr and value:
-                    self._return_text += "%s: %s" % (key, str(value).strip() if value else '' )
+                    self._return_text += "%s: %s\n" % (key, str(value).strip() if value else '' )
                 elif str(value.__class__) == "<type 'dict'>":
                     for inner_key in value.iterkeys():
-                        self._return_text += "%s.%s: %s" % (key, inner_key, value[inner_key])
+                        self._return_text += "%s.%s: %s\n" % (key, inner_key, value[inner_key])
                 elif str(value.__class__) == "<class 'tastypie_client.core.ListProxy'>":
                     for __dict in value:
                         for key in __dict.iterkeys():
                             if key != 'id' and key=='interface':
-                                self._return_text += "%s:%s:%s: %s" % (key, __dict['interface'], key, __dict[key])
+                                self._return_text += "%s:%s:%s: %s\n" % (key, __dict['interface'], key, __dict[key])
                             elif key != 'id':
-                                self._return_text += "%s.%s.%s: %s" % (key, __dict['id'], key, __dict[key])
+                                self._return_text += "%s.%s.%s: %s\n" % (key, __dict['id'], key, __dict[key])
         except Exception, e:
             print 'Fail: Object not found'
             self.return_code = 1
