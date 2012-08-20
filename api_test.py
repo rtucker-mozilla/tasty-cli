@@ -1,53 +1,58 @@
 #!/usr/bin/python
 import sys
+import argparse
 from MozInventoryCLI import MozInventoryCLI
 
 if __name__ == '__main__':
+
     m = MozInventoryCLI()
-    arg_len = len(sys.argv)
-    action = sys.argv[1]
-    if arg_len == 2:
-        print m.list_namespaces() if action == 'list' else ''
-        print m.list_schema_urls() if action == 'schema_urls' else ''
+    # create the top-level parser
+    parser = argparse.ArgumentParser(prog='PROG')
+    #parser.add_argument('--foo', action='store_true', help='foo help')
+    subparsers = parser.add_subparsers(dest='command')
+    # create the parser for the "a" command
+    namespaces = m.list_namespaces()
+    native_args = [
+            'create',
+            'delete',
+            'update',
+            'search',
+            'read',
+            ]
+    for ns in m.list_namespaces().iterkeys():
+        tmp = subparsers.add_parser(ns, help='api access to %s' % ns,)
+        tmp.add_argument('--create', help='ACTION: create %s' % ns, action='store_true')
+        tmp.add_argument('--delete', help='ACTION: create %s' % ns, action='store_true')
+        tmp.add_argument('--update', help='ACTION: update %s' % ns, action='store_true')
+        tmp.add_argument('--search', help='ACTION: search for %s' % ns, action='store_true')
+        tmp.add_argument('--read', help='ACTION: read %s' % ns, action='store_true')
+        if '--create' not in sys.argv and '--delete' not in sys.argv and '--search' not in sys.argv:
+            tmp.add_argument('argument__', help='OBJECT to act upon', action='store')
+        schema = m.schema(ns)
 
-    elif arg_len == 3:
-        m.list_schema_urls(sys.argv[2]) if action == 'schema_urls' else ''
-        m.schema(sys.argv[2]) if action == 'schema' else ''
+        for sc in schema['fields'].iterkeys():
+            tmp.add_argument(
+                '--%s' % sc,
+                #type=string,
+                help=schema['fields'][sc]['help_text'],
+                )
+    cmd = parser.parse_args()
+    action_dict = {}
+    for na in cmd.__dict__:
+        if na not in native_args:
+            if cmd.__dict__[na] is not None and na != 'argument__' and na != 'command':
+                action_dict[na] = cmd.__dict__[na]
+    if cmd.update:
+        m.update(cmd.command, cmd.__dict__['argument__'], action_dict)
 
-    elif action =='read' or action == 'search':
-        if action == 'search':
-            type = sys.argv[2]
-            arg_dict = {}
-            for x in sys.argv[3:]:
-                try:
-                    the_split = x.split("=")
-                    arg_dict[the_split[0]] = the_split[1]
-                except Exception, e:
-                    import pdb; pdb.set_trace()
-            m.search(type, arg_dict)
-        if action == 'read':
-            type = sys.argv[2]
-            obj = sys.argv[3]
-            m.read(type, obj)
-    elif arg_len > 3 and action !='read' and action != 'search':
-        if action == 'update':
-            type = sys.argv[2]
-            obj = sys.argv[3]
-            arg_dict = {}
-            for x in sys.argv[4:]:
-                the_split = x.split("=")
-                arg_dict[the_split[0]] = the_split[1]
-            m.update(type, obj, arg_dict)
+    if cmd.read:
+            m.read(cmd.command, cmd.argument__)
 
-        if action == 'create':
-            type = sys.argv[2]
-            arg_dict = {}
-            for x in sys.argv[3:]:
-                the_split = x.split("=")
-                arg_dict[the_split[0]] = the_split[1]
-            m.create(type, arg_dict)
+    if cmd.create:
+        m.create(cmd.command, action_dict)
 
-        if action == 'delete':
-            type = sys.argv[2]
-            id = sys.argv[3]
-            m.delete(type, id)
+    if cmd.delete:
+        m.delete(cmd.command, action_dict)
+
+    if cmd.search:
+        m.search(cmd.command, action_dict)

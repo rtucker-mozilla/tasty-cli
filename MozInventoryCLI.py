@@ -44,11 +44,12 @@ class MozInventoryCLI(object):
 
     def list_namespaces(self):
         endpoints = self._api.get_endpoints()
+        return endpoints
         ret = ''
         for e in endpoints.iterkeys():
             ret += '%s\n' % e
         self._return_text = ret
-        self._cleanup()
+        #self._cleanup()
 
     def list_schema_urls(self, the_obj=None):
         endpoints = self._api.get_endpoints()
@@ -135,12 +136,15 @@ class MozInventoryCLI(object):
         self._cleanup()
 
     def schema(self, the_obj):
+        should_print = False
         the_schema = self._api.get_schema(the_obj)
-        for f in the_schema['fields'].iterkeys():
-            if f != 'resource_uri':
-                print "%s:" % f,\
-                    "\n\tnullable=%s," % the_schema['fields'][f]['nullable'], \
-                    "\n\tdefault='%s'," % the_schema['fields'][f]['default'], \
-                    "\n\ttype='%s'," % the_schema['fields'][f]['type'], \
-                    "\n\texample='%s'," % the_schema['fields'][f]['help_text'], \
-                    "\n\tunique='%s'\n" % the_schema['fields'][f]['unique'] 
+        if should_print:
+            for f in the_schema['fields'].iterkeys():
+                if f != 'resource_uri':
+                    print "%s:" % f,\
+                        "\n\tnullable=%s," % the_schema['fields'][f]['nullable'], \
+                        "\n\tdefault='%s'," % the_schema['fields'][f]['default'], \
+                        "\n\ttype='%s'," % the_schema['fields'][f]['type'], \
+                        "\n\texample='%s'," % the_schema['fields'][f]['help_text'], \
+                        "\n\tunique='%s'\n" % the_schema['fields'][f]['unique'] 
+        return the_schema
