@@ -16,6 +16,10 @@ native_args = [
 m = MozInventoryCLI()
 
 class PickledResponse(object):
+    """
+        Stub class to simply mimic that of the tastypie api
+    """
+
     namespaces = {}
     def __init__(self, ns):
         self.namespaces = ns
@@ -30,6 +34,9 @@ def refresh():
     return build_response(should_pickle=True, moz_inv_object=m)
 
 def build_response(should_pickle=True, moz_inv_object=None):
+    """
+        Decide if we want to use the cached file or hit the api
+    """
     if not should_pickle:
         pickled_response = pickle.load( open( pickle_file, "rb" ) )
         m = PickledResponse(pickled_response)
@@ -68,8 +75,17 @@ def file_age_in_seconds(pathname):
     return time.time() - os.stat(pathname)[stat.ST_MTIME]
 
 def load_args():
+    """
+        If the pickle file doesn't exist, let's create it
+    """
+
     if not os.path.exists(pickle_file):
         return refresh()
+    """
+        check to see if the pickle file is too old. If it is,
+        create a new one
+        If it's less than the expiration, use the pickle file
+    """
 
     if file_age_in_seconds(pickle_file) > pickle_file_expiration:
         return refresh()
