@@ -65,7 +65,26 @@ def build_response(should_pickle=True, moz_inv_object=None):
                 )
     if should_pickle:
         pickle.dump( namespaces, open( pickle_file, "wb" ) )
+    load_interface_defs(subparsers)
     return parser
+
+def load_interface_defs(subparsers):
+    tmp = subparsers.add_parser('interface', help='Interface Manipulation')
+    tmp.add_argument('--create', help='create interface', action='store_true')
+    tmp.add_argument('--site', help='', action='store')
+    tmp.add_argument('--vlan', help='', action='store')
+    tmp.add_argument('--base-domain', help='', action='store')
+    tmp.add_argument('--network', help='', action='store')
+    tmp.add_argument('--range', help='', action='store')
+    tmp.add_argument('--ip', help='', action='store')
+    tmp.add_argument('--mac', help='', action='store')
+    tmp.add_argument('--label', help='', action='store')
+    tmp.add_argument('--fqdn', help='', action='store')
+    tmp.add_argument('--type', help='', action='store')
+    tmp.add_argument('--primary', help='', action='store')
+    tmp.add_argument('--alias', help='', action='store')
+    tmp.add_argument('--system', help='', action='store')
+
 
 def pickled():
     return build_response(False)
@@ -81,6 +100,7 @@ def load_args():
 
     if not os.path.exists(pickle_file):
         return refresh()
+
     """
         check to see if the pickle file is too old. If it is,
         create a new one
@@ -100,19 +120,57 @@ if __name__ == '__main__':
     action_dict = {}
     for na in cmd.__dict__:
         if na not in native_args:
-            if cmd.__dict__[na] is not None and na != 'argument__' and na != 'command':
+            if cmd.__dict__[na] is not None and\
+                na != 'argument__' and na != 'command':
                 action_dict[na] = cmd.__dict__[na]
-    if cmd.update:
-        m.update(cmd.command, cmd.__dict__['argument__'], action_dict)
 
-    if cmd.read:
-        m.read(cmd.command, cmd.argument__)
+    if not cmd.command == 'interface':
+        if cmd.update:
+            m.update(cmd.command, cmd.__dict__['argument__'], action_dict)
 
-    if cmd.create:
-        m.create(cmd.command, action_dict)
+        if cmd.read:
+            m.read(cmd.command, cmd.argument__)
 
-    if cmd.delete:
-        m.delete(cmd.command, action_dict)
+        if cmd.create:
+            m.create(cmd.command, action_dict)
 
-    if cmd.search:
-        m.search(cmd.command, action_dict)
+        if cmd.delete:
+            m.delete(cmd.command, action_dict)
+
+        if cmd.search:
+            m.search(cmd.command, action_dict)
+
+    else:
+        if cmd.create:
+            if not cmd.system:
+                print "--system argument is required to create an interface"
+                sys.exit(2)
+            else:
+                print cmd.system
+
+            if not cmd.mac:
+                print "--mac argument is required to create an interface"
+                sys.exit(2)
+            else:
+                print cmd.mac
+
+            if cmd.range and cmd.ip:
+                print "--range and --ip are mutually exclusive"
+                sys.exit(2)
+
+            if not cmd.range and not cmd.ip:
+                print "--range or --ip argument is required to create an interface"
+                sys.exit(2)
+
+            update_dict = {
+                    'auto_create_interface': True,
+                    'mac_address': cmd.mac,
+                    }
+            print m.update('system', cmd.system, update_dict)
+
+
+
+
+
+
+
