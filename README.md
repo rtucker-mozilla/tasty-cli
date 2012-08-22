@@ -34,8 +34,9 @@ Usage
 
 Top Level Help
 -
-
+    Command:
     ./api.py --help
+    Response:
     usage: PROG [-h]
                 
                 {key_value,operating_system,system,server_model,allocation,system_status,location,system_rack,interface}
@@ -58,7 +59,9 @@ Top Level Help
 
 Module Level Help
 -
+    Command:
     ./api.py operating_system --help
+    Response:
     usage: PROG operating_system [-h] [--create] [--delete] [--update] [--search]
                                  [--read] [--version VERSION] [--id ID]
                                  [--name NAME] [--resource_uri RESOURCE_URI]
@@ -82,19 +85,17 @@ Module Level Help
 
 Reading an Object
 -
+    Command:
     ./api.py operating_system 12 --read 
-
     Response:
-
     id: 12
     name: Fedora Core
     version: 7
 
 Updating an Object
 -
+    Command:
     ./api.py operating_system 12 --update --name='Ubuntu'
-
     Response:
-
     Success
 
