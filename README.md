@@ -96,6 +96,7 @@ Updating an Object
 -
 You can update an object by looking at the results returned, they start with --.
 They will be the ones besides the ACTION items
+
     Command:
     ./api.py operating_system 12 --update --name='Ubuntu'
     Response:
