@@ -32,6 +32,9 @@ url_of_api
 Usage
 =
 
+Top Level Help
+-
+
     ./api.py --help
     usage: PROG [-h]
                 
