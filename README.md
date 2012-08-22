@@ -55,3 +55,27 @@ Top Level Help
     
     optional arguments:
       -h, --help            show this help message and exit
+
+Module Level Help
+-
+    ./api.py operating_system --help
+    usage: PROG operating_system [-h] [--create] [--delete] [--update] [--search]
+                                 [--read] [--version VERSION] [--id ID]
+                                 [--name NAME] [--resource_uri RESOURCE_URI]
+                                 argument__
+    
+    positional arguments:
+      argument__            OBJECT to act upon
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      --create              ACTION: create operating_system
+      --delete              ACTION: create operating_system
+      --update              ACTION: update operating_system
+      --search              ACTION: search for operating_system
+      --read                ACTION: read operating_system
+      --version VERSION     Unicode string data. Ex: "Hello World"
+      --id ID               Integer data. Ex: 2673
+      --name NAME           Unicode string data. Ex: "Hello World"
+      --resource_uri RESOURCE_URI
+                            Unicode string data. Ex: "Hello World"
