@@ -111,9 +111,7 @@ def load_args():
         return refresh()
     else:
         return pickled()
-
-if __name__ == '__main__':
-
+def main():
     parser = load_args()
 
     cmd = parser.parse_args()
@@ -169,6 +167,10 @@ if __name__ == '__main__':
                     'fqdn': cmd.fqdn,
                     }
             status, result = m.update('system', cmd.system, update_dict)
+
+if __name__ == '__main__':
+    main()
+
 
 
 
