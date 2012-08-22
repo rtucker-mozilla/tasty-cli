@@ -91,6 +91,7 @@ class MozInventoryCLI(object):
             print "Success"
         else:
             print "Error: %s" % result
+        return status, result
         self._cleanup()
 
 

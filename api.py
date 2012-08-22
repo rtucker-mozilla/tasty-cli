@@ -163,10 +163,12 @@ if __name__ == '__main__':
                 sys.exit(2)
 
             update_dict = {
-                    'auto_create_interface': True,
-                    'mac_address': cmd.mac,
+                    'mac': cmd.mac,
+                    'range': cmd.range,
+                    'fqdn': cmd.fqdn,
                     }
-            print m.update('system', cmd.system, update_dict)
+            status, result = m.update('system', cmd.system, update_dict)
+            import pdb; pdb.set_trace()
 
 
 
