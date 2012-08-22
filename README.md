@@ -105,6 +105,7 @@ They will be the ones besides the ACTION items
 Creating an Interface
 -
     Command:
-    ./api.py interface --create --system=system.host.name --mac=00:00:00:00:00:00 --fqdn=host.vlan.dc.mozilla.com --range=10.0.0.1,10.0.0.255
+    ./api.py interface --create --system=system.host.name --mac=00:00:00:00:00:00\
+    --fqdn=host.vlan.dc.mozilla.com --range=10.0.0.1,10.0.0.255
     Response:
     Success (Will eventually return the interface details) 
