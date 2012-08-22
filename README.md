@@ -79,3 +79,22 @@ Module Level Help
       --name NAME           Unicode string data. Ex: "Hello World"
       --resource_uri RESOURCE_URI
                             Unicode string data. Ex: "Hello World"
+
+Reading an Object
+-
+    ./api.py operating_system 12 --read 
+
+    Response:
+
+    id: 12
+    name: Fedora Core
+    version: 7
+
+Updating an Object
+-
+    ./api.py operating_system 12 --update --name='Ubuntu'
+
+    Response:
+
+    Success
+
