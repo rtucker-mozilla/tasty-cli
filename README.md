@@ -32,5 +32,23 @@ url_of_api
 Usage
 =
 
-Usage instructions coming soon!
+./api.py --help
+usage: PROG [-h]
+            
+            {key_value,operating_system,system,server_model,allocation,system_status,location,system_rack,interface}
+            ...
 
+positional arguments:
+  {key_value,operating_system,system,server_model,allocation,system_status,location,system_rack,interface}
+    key_value           api access to key_value
+    operating_system    api access to operating_system
+    system              api access to system
+    server_model        api access to server_model
+    allocation          api access to allocation
+    system_status       api access to system_status
+    location            api access to location
+    system_rack         api access to system_rack
+    interface           Interface Manipulation
+
+optional arguments:
+  -h, --help            show this help message and exit
