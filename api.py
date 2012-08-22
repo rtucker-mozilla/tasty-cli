@@ -165,10 +165,10 @@ if __name__ == '__main__':
             update_dict = {
                     'mac': cmd.mac,
                     'range': cmd.range,
+                    'hostname': cmd.system,
                     'fqdn': cmd.fqdn,
                     }
             status, result = m.update('system', cmd.system, update_dict)
-            import pdb; pdb.set_trace()
 
 
 

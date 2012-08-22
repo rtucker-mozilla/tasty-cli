@@ -73,7 +73,7 @@ Module Level Help
     optional arguments:
       -h, --help            show this help message and exit
       --create              ACTION: create operating_system
-      --delete              ACTION: create operating_system
+      --delete              ACTION: delete operating_system
       --update              ACTION: update operating_system
       --search              ACTION: search for operating_system
       --read                ACTION: read operating_system
@@ -94,8 +94,16 @@ Reading an Object
 
 Updating an Object
 -
+You can update an object by looking at the results returned, they start with --.
+They will be the ones besides the ACTION items
     Command:
     ./api.py operating_system 12 --update --name='Ubuntu'
     Response:
     Success
 
+Creating an Interface
+-
+    Command:
+    ./api.py interface --create --system=system.host.name --mac=00:00:00:00:00:00 --fqdn=host.vlan.dc.mozilla.com --range=10.0.0.1,10.0.0.255
+    Response:
+    Success (Will eventually return the interface details) 
